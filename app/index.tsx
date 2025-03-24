@@ -1,8 +1,10 @@
 import { View, Text } from 'react-native';
-export default function HomeScreen() {
+
+const HomeScreen = () => {
   return (
     <View>
-      <Text>HOME TABS</Text>
+      <Text>HOME</Text>
     </View>
   );
-}
+};
+export default HomeScreen;
