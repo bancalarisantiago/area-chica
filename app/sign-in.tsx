@@ -4,18 +4,19 @@ import { Text, View } from 'react-native';
 import { useSession } from '../context/AuthContext';
 
 export default function SignIn() {
-  const { signIn } = useSession();
+  const { signUp } = useSession();
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View className="flex-1 justify-center items-center ">
       <Text
         onPress={() => {
-          signIn();
+          signUp('bancalarisantiago@gmail.com.ar', 'test1234');
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
           router.replace('/');
         }}
       >
-        Sign In
+        Sign Up
       </Text>
     </View>
   );
