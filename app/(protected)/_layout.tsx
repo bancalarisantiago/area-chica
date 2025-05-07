@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 
 import { useSession } from '@/context/AuthContext';
 export default function AppLayout() {
@@ -20,15 +20,11 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <Tabs>
-      <Tabs.Screen
-        name="(home)"
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
         options={{ title: 'Home' }}
       />
-      <Tabs.Screen
-        name="(test)"
-        options={{ title: 'Test' }}
-      />
-    </Tabs>
+    </Stack>
   );
 }
