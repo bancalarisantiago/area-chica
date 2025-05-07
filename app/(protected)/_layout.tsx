@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { Redirect, Stack } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 
 import { useSession } from '@/context/AuthContext';
 export default function AppLayout() {
@@ -15,9 +15,20 @@ export default function AppLayout() {
   if (!session) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/sign-in" />;
+    return <Redirect href="/login" />;
   }
 
   // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return (
+    <Tabs>
+      <Tabs.Screen
+        name="(home)"
+        options={{ title: 'Home' }}
+      />
+      <Tabs.Screen
+        name="(test)"
+        options={{ title: 'Test' }}
+      />
+    </Tabs>
+  );
 }

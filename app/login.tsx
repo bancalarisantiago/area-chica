@@ -10,7 +10,7 @@ export default function SignIn() {
     <View className="flex-1 justify-center items-center ">
       <Text
         onPress={() => {
-          signUp('bancalarisantiago@gmail.com.ar', 'test1234');
+          signUp('bancalarisantiago@gmail.com', 'test1234');
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
           router.replace('/');

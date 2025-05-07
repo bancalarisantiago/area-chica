@@ -4,7 +4,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { SessionProvider } from '@/context/AuthContext';
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import '../global.css';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,7 +27,22 @@ export default function RootLayout() {
 
   return (
     <SessionProvider>
-      <Slot />
+      <StatusBar style="auto" />
+      <Stack>
+        <Stack.Screen
+          name="(protected)"
+          options={{
+            headerShown: false,
+            animation: 'none',
+          }}
+        />
+        <Stack.Screen
+          name="login"
+          options={{
+            animation: 'none',
+          }}
+        />
+      </Stack>
     </SessionProvider>
   );
 }
