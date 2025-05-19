@@ -1,17 +1,22 @@
-import { useContext, createContext, type PropsWithChildren } from 'react';
-import { useStorageState } from '../hooks/useStorageState';
+import AuthService from '@/services/auth';
+import { createContext, PropsWithChildren, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/services/supabase';
 
-const AuthContext = createContext<{
-  signIn: () => void;
-  signOut: () => void;
-  session?: string | null;
+interface AuthContextType {
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
+  user: any;
   isLoading: boolean;
-}>({
-  signIn: () => null,
-  signOut: () => null,
-  session: null,
-  isLoading: false,
-});
+}
+
+interface User {
+  uid?: string;
+  email: string;
+  name?: string;
+}
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 // This hook can be used to access the user info.
 export function useSession() {
@@ -26,20 +31,71 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState('session');
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const setSession = (session: any) => {
+    if (session) {
+      setUser({
+        uid: session.user.id,
+        email: session.user.email,
+        name: session.user.user_metadata.name,
+      });
+    } else {
+      setUser(null);
+    }
+  };
+
+  // useEffect(() => {
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     setSession(session);
+  //   });
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session);
+  //   });
+  // }, []);
+  const handleSignIn = async (email: string, password: string) => {
+    setIsLoading(true);
+    try {
+      const response = await AuthService.signIn(email, password);
+
+      setUser({ email, name: response?.displayName, uid: response?.uid });
+      return { success: true };
+    } catch (error) {
+      console.log('error', error);
+
+      return { email: '', password: '' };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignUp = async (email: string, password: string) => {
+    try {
+      const response = await AuthService.signUp(email, password);
+      setUser({ email: response?.email });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      //   await logout();
+      setUser(null);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          // Perform sign-in logic here
-          setSession('xxx');
-        },
-        signOut: () => {
-          setSession(null);
-        },
-        session,
+        signIn: handleSignIn,
+        signOut: handleSignOut,
+        signUp: handleSignUp,
         isLoading,
+        user,
       }}
     >
       {children}

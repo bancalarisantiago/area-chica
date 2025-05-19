@@ -9,13 +9,20 @@ export default function SignIn() {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text
         onPress={() => {
-          signIn();
+          signIn('bancalarisantiago@gmail.com', 'rtetes');
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
-          router.replace('/');
+          router.replace('/(app)/(tabs)');
         }}
       >
-        Sign In
+        Sign Inasdasdsadsa
+      </Text>
+      <Text
+        onPress={() => {
+          router.replace('/sign-up');
+        }}
+      >
+        Crear Cuenta
       </Text>
     </View>
   );
