@@ -1,8 +1,9 @@
-import { Text, View, Image, Pressable } from 'react-native';
-
+import { Text, View, Pressable, ImageBackground } from 'react-native';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 
-const imgField = require('../../../../assets/images/area-foto-1.jpg');
+const futbol = require('../../../../assets/images/area-foto-1.jpg');
+const paddle = require('../../../../assets/images/foto-paddle-1.webp');
 const FieldTypeCard = ({ className, type, description, image, price }) => {
   const router = useRouter();
 
@@ -11,10 +12,9 @@ const FieldTypeCard = ({ className, type, description, image, price }) => {
       onPress={() => router.push(`/fieldDetails/1`)}
       className="bg-white rounded-2xl p-4 m-4 shadow-sm flex-row items-center"
     >
-      <Image
+      <ImageBackground
         source={image}
-        className="w-32 h-32 mr-4 rounded-lg"
-        resizeMode="cover"
+        className="w-16 h-16 mr-4 rounded-lg"
       />
       <View className="flex-1">
         <Text className="text-lg font-bold text-gray-800">{type}</Text>
@@ -30,9 +30,21 @@ export default function Home() {
   return (
     <View className="flex-1 gap-6">
       <FieldTypeCard
-        image={imgField}
-        price="25000"
+        image={require('../../../../assets/images/area-foto-1.jpg')}
+        price="50000"
         type="Futbol 6"
+        description="Cocina profesional"
+      />
+      <FieldTypeCard
+        image={require('../../../../assets/images/area-foto-1.jpg')}
+        price="25000"
+        type="Futbol 5"
+        description="Cocina profesional"
+      />
+      <FieldTypeCard
+        image={require('../../../../assets/images/foto-paddle-1.webp')}
+        price="25000"
+        type="Paddle"
         description="Cocina profesional"
       />
     </View>

@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from '@/context/AuthContext';
+import { LinearGradient } from 'expo-linear-gradient';
 const userSchema = z.object({
   name: z.string().min(8, { message: 'Name must be at least 8 characters' }),
   email: z.string().email({ message: 'Invalid email' }),
@@ -41,8 +42,11 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <Box className="flex flex-col p-20">
+    <LinearGradient
+      colors={['#3CB371', '#A8E6CF', '#0077B6', '#023047']}
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
+      <Box className="w-3/4 bg-black p-20 opacity-80 rounded-xl">
         <InputController
           name="name"
           control={control}
@@ -81,7 +85,7 @@ const SignUp = () => {
       >
         DATA
       </Text>
-    </>
+    </LinearGradient>
   );
 };
 
