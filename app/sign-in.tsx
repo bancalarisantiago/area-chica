@@ -12,7 +12,7 @@ export default function SignIn() {
           signIn('bancalarisantiago@gmail.com', 'rtetes');
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
-          router.replace('/(app)/(tabs)');
+          router.replace('/(app)/(tabs)/(home)');
         }}
       >
         Sign Inasdasdsadsa

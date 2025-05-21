@@ -2,11 +2,11 @@ import { supabase } from './supabase';
 
 const signUp = async (email: string, password: string) => {
   try {
-    // const response = await supabase.auth.signUp({
-    //   email: email,
-    //   password: password,
-    // });
-    return { email, password };
+    const response = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    return response;
   } catch (error) {
     console.error('Error signing in:', error);
   }

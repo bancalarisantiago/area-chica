@@ -37,7 +37,7 @@ const SignUp = () => {
     console.log('Invoice Data:', getValues(), { data, errors, isValid, disabled }); // Log validated form data to the console
 
     await signUp(data.email, data.password);
-    router.replace('/(app)/(tabs)');
+    router.replace('/(app)/(tabs)/(home)');
   };
 
   return (

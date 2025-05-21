@@ -46,20 +46,22 @@ export function SessionProvider({ children }: PropsWithChildren) {
     }
   };
 
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     setSession(session);
-  //   });
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     setSession(session);
-  //   });
-  // }, []);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('session', session);
+
+      setSession(session);
+    });
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
   const handleSignIn = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await AuthService.signIn(email, password);
+      // const response = await AuthService.signIn(email, password);
 
-      setUser({ email, name: response?.displayName, uid: response?.uid });
+      setUser({ email: 'test', name: 'test' });
       return { success: true };
     } catch (error) {
       console.log('error', error);
@@ -73,7 +75,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const handleSignUp = async (email: string, password: string) => {
     try {
       const response = await AuthService.signUp(email, password);
-      setUser({ email: response?.email });
+      console.log('response', response);
+      return setUser({ email: response?.email });
     } catch (error) {
       console.log('error', error);
     }
