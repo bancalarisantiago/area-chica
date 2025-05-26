@@ -28,6 +28,7 @@ interface InputControllerProps extends InputProps {
   register?: any;
   errors?: any;
   formState?: any;
+  secureTextEntry?: boolean;
 }
 const InputController: FC<InputControllerProps> = (props) => {
   const {
@@ -43,6 +44,7 @@ const InputController: FC<InputControllerProps> = (props) => {
     helperText,
     errorIcon,
     errorText,
+    secureTextEntry,
     ...rest
   } = props;
 
@@ -53,18 +55,16 @@ const InputController: FC<InputControllerProps> = (props) => {
       isReadOnly={isDisabled}
       isRequired={isRequired}
     >
-      <FormControlLabel>
+      <FormControlLabel className="mb-2">
         <FormControlLabelText>{label}</FormControlLabelText>
       </FormControlLabel>
       <Input
         {...props}
         onChangeText={onChange}
         value={value}
+        secureTextEntry={secureTextEntry}
       />
-      <FormControlHelper>
-        <FormControlHelperText>{helperText}</FormControlHelperText>
-      </FormControlHelper>
-      <FormControlError>
+      <FormControlError className="mt-1">
         {errorIcon && <FormControlErrorIcon as={errorIcon} />}
         <FormControlErrorText>{errorText}</FormControlErrorText>
       </FormControlError>

@@ -9,7 +9,7 @@ export interface InputProps {
   value?: any;
   onChangeText?: any;
 }
-const Input: FC<InputProps> = ({ icon, type, placeholder, value, onChangeText, slot }) => {
+const Input: FC<InputProps> = ({ icon, type, placeholder, value, onChangeText, slot, ...rest }) => {
   return (
     <UIInput>
       <InputField
@@ -17,6 +17,7 @@ const Input: FC<InputProps> = ({ icon, type, placeholder, value, onChangeText, s
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
+        {...rest}
       />
       {icon && <InputIcon>{icon}</InputIcon>}
       {slot && <InputSlot>{slot}</InputSlot>}
