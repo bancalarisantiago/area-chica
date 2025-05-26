@@ -1,7 +1,21 @@
-import { Text, View, Pressable, ImageBackground } from 'react-native';
-import { Image } from 'expo-image';
+import { Text, View, Pressable, ImageBackground, Image, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 
+export const shadowStyle = {
+  ...Platform.select({
+    // ios: {
+    //   shadowColor: '#000',
+    //   shadowOffset: { width: 0, height: 4 },
+    //   shadowOpacity: 0.1,
+    //   shadowRadius: 6,
+    // },
+    android: {
+      elevation: 8,
+    },
+  }),
+  backgroundColor: 'white',
+  borderRadius: 16,
+};
 const futbol = require('../../../../assets/images/area-foto-1.jpg');
 const paddle = require('../../../../assets/images/foto-paddle-1.webp');
 const FieldTypeCard = ({ className, type, description, image, price }) => {
@@ -10,11 +24,12 @@ const FieldTypeCard = ({ className, type, description, image, price }) => {
   return (
     <Pressable
       onPress={() => router.push(`/fieldDetails/1`)}
-      className="bg-white rounded-2xl p-4 m-4 shadow-sm flex-row items-center"
+      className="bg-white rounded-2xl p-4 m-4 shadow-sm flex-row items-center "
+      style={shadowStyle}
     >
-      <ImageBackground
+      <Image
         source={image}
-        className="w-16 h-16 mr-4 rounded-lg"
+        className="w-32 h-32 rounded-md mr-4"
       />
       <View className="flex-1">
         <Text className="text-lg font-bold text-gray-800">{type}</Text>
@@ -26,11 +41,13 @@ const FieldTypeCard = ({ className, type, description, image, price }) => {
     </Pressable>
   );
 };
+
+const foto1 = require('../../../../assets/images/area-foto-1.jpg');
 export default function Home() {
   return (
-    <View className="flex-1 gap-6">
+    <View className="flex-1 gap-4">
       <FieldTypeCard
-        image={require('../../../../assets/images/area-foto-1.jpg')}
+        image={foto1}
         price="50000"
         type="Futbol 6"
         description="Cocina profesional"

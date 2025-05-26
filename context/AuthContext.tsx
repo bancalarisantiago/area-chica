@@ -1,6 +1,6 @@
 import AuthService from '@/services/auth';
 import { createContext, PropsWithChildren, useContext, useState, useEffect } from 'react';
-import { supabase } from '@/services/supabase';
+import { supabase } from '@/api/client/supabase';
 
 interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
