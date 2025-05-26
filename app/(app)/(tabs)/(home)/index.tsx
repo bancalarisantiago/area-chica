@@ -1,6 +1,8 @@
-import { Text, View, Pressable, ImageBackground, Image, Platform } from 'react-native';
+import { Text, View, Pressable, Image, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
-
+import { useEffect, useState } from 'react';
+import { getAllFields } from '@/api/controllers/fields.controller';
+import { Field } from '@/api/types/Field';
 export const shadowStyle = {
   ...Platform.select({
     // ios: {
@@ -44,9 +46,34 @@ const FieldTypeCard = ({ className, type, description, image, price }) => {
 
 const foto1 = require('../../../../assets/images/area-foto-1.jpg');
 export default function Home() {
+  const [fields, setFields] = useState<Field[]>([]);
+
+  const getFields = async () => {
+    console.log('Fetching fields...');
+    try {
+      const response = await getAllFields();
+      setFields(response);
+      console.log('Fields:', response);
+    } catch (error) {
+      console.log('Error fetching fields:', error);
+    }
+  };
+  useEffect(() => {
+    getFields();
+  }, []);
+
   return (
     <View className="flex-1 gap-4">
-      <FieldTypeCard
+      {/* {fields?.map((field) => (
+        <FieldTypeCard
+          key={field.id}
+          image={field.image}
+          price={field.price}
+          type={field.type}
+          description={field.description}
+        />
+      ))} */}
+      {/* <FieldTypeCard
         image={foto1}
         price="50000"
         type="Futbol 6"
@@ -63,7 +90,7 @@ export default function Home() {
         price="25000"
         type="Paddle"
         description="Cocina profesional"
-      />
+      /> */}
     </View>
   );
 }
