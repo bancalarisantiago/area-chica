@@ -1,27 +1,29 @@
-import { FC } from 'react';
-import { Input as UIInput, InputField, InputIcon, InputSlot } from '@/components/ui/input';
+import {
+  IInputFieldProps,
+  InputField,
+  InputIcon,
+  InputSlot,
+  Input as InputUI,
+} from '@/components/ui/input';
+import { FC, ReactNode } from 'react';
 
-export interface InputProps {
-  icon?: any;
-  slot?: any;
-  type?: any;
-  placeholder?: any;
-  value?: any;
-  onChangeText?: any;
+export interface CustomInputProps extends IInputFieldProps {
+  icon?: ReactNode;
+  slot?: ReactNode;
+  field?: IInputFieldProps;
 }
-const Input: FC<InputProps> = ({ icon, type, placeholder, value, onChangeText, slot, ...rest }) => {
+
+const Input: FC<CustomInputProps> = ({ icon, slot, field, key, className, ...rest }) => {
   return (
-    <UIInput>
+    <InputUI>
       <InputField
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
         {...rest}
+        {...field}
+        className={className}
       />
       {icon && <InputIcon>{icon}</InputIcon>}
       {slot && <InputSlot>{slot}</InputSlot>}
-    </UIInput>
+    </InputUI>
   );
 };
 

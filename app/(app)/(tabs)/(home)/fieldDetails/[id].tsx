@@ -1,6 +1,7 @@
 import { View, Text, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { getFieldById as getFieldByIdController } from '@/api/controllers/fields.controller';
+import { useLocalSearchParams } from 'expo-router';
 const futbol = require('../../../../../assets/images/area-foto-1.jpg');
 
 const hours = Array.from({ length: 15 }, (_, i) => {
@@ -19,6 +20,9 @@ export default function FieldDetailScreen() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const [selectedHour, setSelectedHour] = useState(null);
+  const [fieldDetails, setFieldDetails] = useState([]);
+  const { id } = useLocalSearchParams();
+  console.log('id', id);
 
   const months = [
     'Enero',
@@ -37,6 +41,21 @@ export default function FieldDetailScreen() {
 
   const selectedDay = days[selectedDayIndex];
   const isReadyToBook = selectedDay && selectedHour !== null;
+
+  const getFieldById = async (id: string) => {
+    try {
+      const response = await getFieldByIdController(id);
+
+      // setFieldDetails(response);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getFieldById(id);
+  });
 
   return (
     <ScrollView className="flex-1 bg-white">

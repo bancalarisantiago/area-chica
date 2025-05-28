@@ -55,17 +55,14 @@ const SignUp = () => {
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const eyeIcon = useMemo(
-    () => (
-      <Pressable onPress={handleShowPassword}>
-        <Ionicons
-          name={showPassword ? 'eye' : 'eye-off'}
-          size={24}
-          color="gray"
-        />
-      </Pressable>
-    ),
-    [showPassword],
+  const renderEyeIcon = () => (
+    <Pressable onPress={handleShowPassword}>
+      <Ionicons
+        name={showPassword ? 'eye' : 'eye-off'}
+        size={24}
+        color="gray"
+      />
+    </Pressable>
   );
 
   return (
@@ -81,37 +78,36 @@ const SignUp = () => {
         <Text className="text-3xl font-bold mb-4 text-center">Crear Cuenta</Text>
         <InputController
           name="name"
-          control={control}
           label="Nombre"
-          type="text"
+          control={control}
           placeholder="Juan Perez"
           errorText={errors?.name?.message}
         />
         <InputController
           name="email"
-          control={control}
           label="Email"
-          type="email"
           placeholder="KoKZq@example.com"
+          autoCapitalize="none"
+          control={control}
           errorText={errors?.email?.message}
         />
         <InputController
           name="password"
-          control={control}
           label="Contraseña"
-          secureTextEntry={!showPassword}
+          control={control}
           placeholder="Ingresa tu contraseña"
+          secureTextEntry={!showPassword}
+          slot={renderEyeIcon()}
           errorText={errors?.password?.message}
-          slot={eyeIcon}
         />
         <InputController
           name="confirmPassword"
-          control={control}
           label="Confirmar contraseña"
-          type={showPassword ? 'text' : 'password'}
+          control={control}
           placeholder="Confirmar tu contraseña"
+          slot={renderEyeIcon()}
+          secureTextEntry={!showPassword}
           errorText={errors?.confirmPassword?.message}
-          slot={eyeIcon}
         />
       </Box>
       <Button

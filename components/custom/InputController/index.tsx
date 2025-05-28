@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ComponentType } from 'react';
 import {
   FormControl,
   FormControlError,
@@ -8,76 +8,78 @@ import {
   FormControlErrorIcon,
   FormControlErrorText,
   FormControlHelperText,
-} from '@gluestack-ui/themed';
-import { Controller } from 'react-hook-form';
-
-import Input, { InputProps } from '@/components/custom/Input';
-interface InputControllerProps extends InputProps {
+} from '@/components/ui/form-control';
+import { Controller, FieldValues, Path, Control, RegisterOptions } from 'react-hook-form';
+import Input, { CustomInputProps } from '@/components/custom/Input';
+import { IFormControlProps } from '@gluestack-ui/form-control/lib/types';
+interface InputControllerProps<T extends FieldValues>
+  extends Omit<CustomInputProps, 'onChangeText' | 'value'> {
   label: string;
+  name: Path<T>;
+  control: Control<T>;
+  rules?: RegisterOptions<T, Path<T>>;
   isDisabled?: boolean;
   isReadOnly?: boolean;
   isRequired?: boolean;
-  isInvalid?: boolean;
   helperText?: string;
-  errorIcon?: any;
+  errorIcon?: ComponentType;
   errorText?: string;
-  name: string;
-  control: any;
-  rules?: any;
-  defaultValue?: any;
-  register?: any;
-  errors?: any;
-  formState?: any;
   secureTextEntry?: boolean;
+  inputProps?: CustomInputProps;
+  formControlProps?: IFormControlProps;
+  className?: string;
 }
-const InputController: FC<InputControllerProps> = (props) => {
-  const {
-    control,
-    formState,
-    rules,
-    name,
-    label,
-    isDisabled,
-    isReadOnly,
-    isRequired,
-    isInvalid,
-    helperText,
-    errorIcon,
-    errorText,
-    secureTextEntry,
-    ...rest
-  } = props;
-
-  const renderInput = ({ field: { onChange, value }, fieldState: { invalid } }) => (
-    <FormControl
-      isInvalid={invalid}
-      isDisabled={isDisabled}
-      isReadOnly={isDisabled}
-      isRequired={isRequired}
-    >
-      <FormControlLabel className="mb-2">
-        <FormControlLabelText>{label}</FormControlLabelText>
-      </FormControlLabel>
-      <Input
-        {...props}
-        onChangeText={onChange}
-        value={value}
-        secureTextEntry={secureTextEntry}
-      />
-      <FormControlError className="mt-1">
-        {errorIcon && <FormControlErrorIcon as={errorIcon} />}
-        <FormControlErrorText>{errorText}</FormControlErrorText>
-      </FormControlError>
-    </FormControl>
-  );
-
+const InputController = <T extends FieldValues>({
+  label,
+  name,
+  control,
+  rules,
+  isDisabled,
+  isReadOnly,
+  isRequired,
+  helperText,
+  errorIcon,
+  errorText,
+  secureTextEntry,
+  className,
+  formControlProps,
+  ...inputProps
+}: InputControllerProps<T>) => {
   return (
     <Controller
-      control={control}
       name={name}
-      render={renderInput}
+      control={control}
       rules={rules}
-      {...rest}
+      render={({ field: { value, onChange }, fieldState: { invalid, error } }) => (
+        <FormControl
+          className={`${formControlProps?.className ?? ''} ${className ?? ''}`}
+          isInvalid={invalid}
+          isDisabled={isDisabled}
+          isReadOnly={isReadOnly}
+          isRequired={isRequired}
+        >
+          <FormControlLabel className="mb-2">
+            <FormControlLabelText>{label}</FormControlLabelText>
+          </FormControlLabel>
+          <Input
+            {...inputProps}
+            onChangeText={onChange}
+            value={value}
+            secureTextEntry={secureTextEntry}
+          />
+          {error && (
+            <FormControlError className="mt-1">
+              {errorIcon && <FormControlErrorIcon as={errorIcon} />}
+              <FormControlErrorText>{errorText ?? error.message}</FormControlErrorText>
+            </FormControlError>
+          )}
+          {helperText && (
+            <FormControlHelper>
+              <FormControlHelperText>{helperText}</FormControlHelperText>
+            </FormControlHelper>
+          )}
+        </FormControl>
+      )}
     />
   );
 };
