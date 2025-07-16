@@ -55,7 +55,7 @@ export default function FieldDetailScreen() {
 
   useEffect(() => {
     getFieldById(id);
-  });
+  }, []);
 
   return (
     <ScrollView className="flex-1 bg-white">
